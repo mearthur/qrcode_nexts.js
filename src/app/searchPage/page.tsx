@@ -13,8 +13,6 @@ export default function SearchPage() {
   const [showQrcode, setShowQrcode] = useState(false)
 
   function handleGenerate(linkUrl: string) {
-    if (!linkUrl) return;
-
     QRcodeLink.toDataURL(
       linkUrl,
       {
@@ -22,10 +20,6 @@ export default function SearchPage() {
         margin: 2,
       },
       function (err, url) {
-        if (err) {
-          setErrorMessage("");
-          return;
-        }
         setQrcodeLink(url);
         setShowQrcode(true); 
       }
@@ -34,25 +28,23 @@ export default function SearchPage() {
 
   function handleQrcode(e: any) {
     const value = e.target.value;
-    setLink(value); 
-
+    setLink(value);
     setQrcodeLink("");  
     setShowQrcode(false);
     setErrorMessage("");  
-
-    try {
-      new URL(value); 
-      handleGenerate(value);
-    } catch {
-      setErrorMessage("Please enter a valid URL (e.g., https://example.com)");
-    }
   }
 
-  // Função de download do QR Code
   function handleDownload(e: any) {
     if (!link) {
       e.preventDefault();
       setErrorMessage("Please enter a URL before downloading the QR Code.");
+    } else {
+      try {
+        new URL(link);
+        handleGenerate(link); 
+      } catch {
+        setErrorMessage("Please enter a valid URL");
+      }
     }
   }
 
