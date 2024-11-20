@@ -38,14 +38,27 @@ export default function SearchPage() {
     if (!link) {
       e.preventDefault();
       setErrorMessage("Please enter a URL before downloading the QR Code.");
+      return; 
+    } 
+  
+    if (isValidURL(link)) {
+      handleGenerate(link);
     } else {
-      try {
-        new URL(link);
-        handleGenerate(link); 
-      } catch {
-        setErrorMessage("Please enter a valid URL");
-      }
+      e.preventDefault(); 
+      setErrorMessage("Please enter a valid URL");
     }
+  }
+  
+  function isValidURL(url: string): boolean {
+    const pattern = new RegExp(
+      '^(https?:\\/\\/)?' + 
+      '((([a-zA-Z0-9\\-])+\\.)+[a-zA-Z]{2,})' + 
+      '(\\:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*' + 
+      '(\\?[;&a-zA-Z0-9%_.~+=-]*)?' +
+      '(\\#[-a-zA-Z0-9_]*)?$', 
+      'i'
+    );
+    return !!pattern.test(url);
   }
 
   return (
