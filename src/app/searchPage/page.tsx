@@ -26,17 +26,17 @@ export default function SearchPage() {
     );
   }
 
-  function handleQrcode(e: any) {
-    const value = e.target.value;
+  function handleQrcode(event) {
+    const value = event.target.value;
     setLink(value);
     setQrcodeLink("");  
     setShowQrcode(false);
     setErrorMessage("");  
   }
 
-  function handleDownload(e: any) {
+  function handleDownload(event) {
     if (!link) {
-      e.preventDefault();
+      event.preventDefault();
       setErrorMessage("Please enter a URL before downloading the QR Code.");
       return; 
     } 
@@ -44,7 +44,7 @@ export default function SearchPage() {
     if (isValidURL(link)) {
       handleGenerate(link);
     } else {
-      e.preventDefault(); 
+      event.preventDefault(); 
       setErrorMessage("Please enter a valid URL");
     }
   }
@@ -66,7 +66,7 @@ export default function SearchPage() {
       <div className="flex items-center justify-center h-screen flex-col">
         <div className="flex items-center justify-center flex-col gap-8">
           <Image alt="" src={Logo} width={400} />
-          <section className="border-2 rounded-xl border-[#3662E3] bg-[#030617] w-[800px] px-3 py-2 justify-between flex gap-4">
+          <section className="border-2 rounded-3xl border-[#3662E3] bg-[#030617] w-[800px] pl-3 pr-2 py-2 justify-between flex gap-4">
             <input
               type="url"
               pattern="https?://.+"
@@ -80,7 +80,7 @@ export default function SearchPage() {
               className={`px-6 py-4 ${link && !errorMessage
                 ? "bg-[#3662E3] cursor-pointer hover:bg-[#2546a7]"
                 : "bg-[#9aa3b3]  disabled"
-                } rounded-lg font-bold text-white transition-all`}
+                } rounded-2xl font-bold text-white transition-all`}
               href={qrcodelink}
               onClick={(e) => handleDownload(e)}
             >
